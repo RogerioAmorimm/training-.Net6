@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Microservices_Auth</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microservices.Data\Microservices.Data.csproj" />
+    <ProjectReference Include="..\Microservices.Dtos\Microservices.Dtos.csproj" />
+    <ProjectReference Include="..\Microservices.Ioc\Microservices.Ioc.csproj" />
+    <ProjectReference Include="..\Microservices.Mappers\Microservices.Mappers.csproj" />
+    <ProjectReference Include="..\Microservices.Services\Microservices.Services.csproj" />
+  </ItemGroup>
+
+</Project>
