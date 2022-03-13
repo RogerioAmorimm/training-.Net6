@@ -12,11 +12,11 @@ namespace Microservices.Validators.UserValidator
         public override void SingRules()
         {
             ValidatePassword();
-            ValidateUserName();
+            ValidateEmail();
         }
-        private void ValidateUserName() 
+        private void ValidateEmail() 
         {
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty();
         }

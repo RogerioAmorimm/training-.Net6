@@ -55,6 +55,7 @@ namespace Microservices_Auth
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(opt => opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()) ;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

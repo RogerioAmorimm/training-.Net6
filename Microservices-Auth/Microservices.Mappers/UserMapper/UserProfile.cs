@@ -13,6 +13,8 @@ namespace Microservices.Mappers.UserMapper
             CreateMap<CreateUserDto, User>();
             CreateMap<User, IdentityUser<Guid>>();
             CreateMap<User, CustomIdentityUser>();
+            CreateMap<CustomIdentityUser, UserDto>();
+
         }
     }
 }

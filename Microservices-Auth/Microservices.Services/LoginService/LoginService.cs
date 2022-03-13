@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Microservices.Domain.Entities.User;
 using Microservices.Dtos.UserDto;
 using Microservices.Services.SignInManagerService;
@@ -15,39 +16,43 @@ namespace Microservices.Services.LoginService
         private readonly IValidator<LoginUserDto> _loginValidator;
         private readonly ISignInManagerService<CustomIdentityUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         public LoginService(IValidator<LoginUserDto> loginValidator,
                             ISignInManagerService<CustomIdentityUser> signInManager,
-                            ITokenService tokenService)
+                            ITokenService tokenService, IMapper mapper)
         {
             _loginValidator = loginValidator;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> LoginUserAsync(LoginUserDto loginUser)
         {
-
+            
             var validationResult = await _loginValidator.ValidateAsync(loginUser);
+
 
             if (!validationResult.IsValid)
                 return new UnauthorizedObjectResult(validationResult.Errors.Select(x => x.ErrorMessage).First());
 
-            var result = await _signInManager.PasswordSignInAsync(loginUser.UserName,
+            var user = _signInManager.Users.FirstOrDefault(x => x.Email.Equals(loginUser.Email));
+            
+            if(user is null)
+                return new UnauthorizedObjectResult("Failed to sign in, Invalid User");
+            
+            var result = await _signInManager.PasswordSignInAsync(user.UserName,
                                                                   loginUser.Password,
                                                                   false,
                                                                   false);
 
             if (!result.Succeeded) return new UnauthorizedObjectResult("Failed to sign in");
 
-            var user = _signInManager
-                        .Users
-                        .FirstOrDefault(user =>
-                                        user.NormalizedUserName == loginUser.UserName.ToUpper());
-
             var role = (await _signInManager.GetRolesAsync(user)).FirstOrDefault();
 
-            return new OkObjectResult(new { token = _tokenService.CreateToken(user, role).Value });
+            return new OkObjectResult(new LoginResultDto {Token=_tokenService.CreateToken(user, role).Value,
+                                                          User = _mapper.Map<UserDto>(user)});
 
         }
 
