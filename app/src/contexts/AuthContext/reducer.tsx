@@ -4,7 +4,7 @@ import DispatchType from "./types/DispatchType";
 const reducer = (state: IState, action: DispatchType): IState => {
     switch (action.type) {
         case "SIGN_IN":
-            return { ...state, token: action.payload.token, user: action.payload.user };
+            return { ...state, token: action.payload.token, user: action.payload.user, role: action.payload.role };
         case "SIGN_OUT":
             return { ...state, token: null };
         default:

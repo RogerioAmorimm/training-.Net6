@@ -51,8 +51,12 @@ namespace Microservices.Services.LoginService
 
             var role = (await _signInManager.GetRolesAsync(user)).FirstOrDefault();
 
-            return new OkObjectResult(new LoginResultDto {Token=_tokenService.CreateToken(user, role).Value,
-                                                          User = _mapper.Map<UserDto>(user)});
+            return new OkObjectResult(new LoginResultDto
+            {
+                Token = _tokenService.CreateToken(user, role).Value,
+                User = _mapper.Map<UserDto>(user),
+                Role = role
+            });
 
         }
 

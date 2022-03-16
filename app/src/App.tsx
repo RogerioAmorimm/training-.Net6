@@ -8,47 +8,53 @@ import { TranslateProvider } from "./contexts/TranslateContext";
 import LightTheme from "./styles/themes/LightTheme";
 import GlobalStyles from './styles/globals'
 import "devextreme/dist/css/dx.light.css";
+import { MenuProvider } from "./contexts/MenuContext";
+import { TicketProvider } from "./contexts/TicketsContext";
 
 const App: FC = () => {
   return (
     <AuthProvider>
       <TranslateProvider>
         <ThemeProvider theme={LightTheme}>
-          <GlobalStyles />
-          <BrowserRouter>
-            <Routes>
-              {routes.map((route) => {
-                const routeComponent = <Route path={route.path} key={route.path} element={<AppRoute {...route} />} />;
-                if (!route.subRoutes?.length) return routeComponent;
-                else {
-                  const itemRoutes = route.subRoutes.map((sub) => {
-                    let path = route.path.concat("/").concat(sub.subPath);
-                    path = path.replaceAll("//", "/");
-                    return (
-                      <Route
-                        path={path}
-                        key={path}
-                        element={
-                          <AppRoute
+          <MenuProvider>
+            <TicketProvider>
+              <GlobalStyles />
+              <BrowserRouter>
+                <Routes>
+                  {routes.map((route) => {
+                    const routeComponent = <Route path={route.path} key={route.path} element={<AppRoute {...route} />} />;
+                    if (!route.subRoutes?.length) return routeComponent;
+                    else {
+                      const itemRoutes = route.subRoutes.map((sub) => {
+                        let path = route.path.concat("/").concat(sub.subPath);
+                        path = path.replaceAll("//", "/");
+                        return (
+                          <Route
                             path={path}
-                            component={sub.component}
-                            displayOnMenu={route.displayOnMenu}
-                            isPrivate={route.isPrivate}
-                            name={sub.name}
-                            icon={route.icon}
-                            layout={route.layout}
+                            key={path}
+                            element={
+                              <AppRoute
+                                path={path}
+                                component={sub.component}
+                                displayOnMenu={route.displayOnMenu}
+                                isPrivate={route.isPrivate}
+                                name={sub.name}
+                                icon={route.icon}
+                                layout={route.layout}
+                              />
+                            }
                           />
-                        }
-                      />
-                    );
-                  });
-                  if (route.path.replaceAll("/", "").length) itemRoutes.unshift(routeComponent);
+                        );
+                      });
+                      if (route.path.replaceAll("/", "").length) itemRoutes.unshift(routeComponent);
 
-                  return itemRoutes;
-                }
-              })}
-            </Routes>
-          </BrowserRouter>
+                      return itemRoutes;
+                    }
+                  })}
+                </Routes>
+              </BrowserRouter>
+            </TicketProvider>
+          </MenuProvider>
         </ThemeProvider>
       </TranslateProvider>
     </AuthProvider>

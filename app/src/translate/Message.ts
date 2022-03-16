@@ -70,9 +70,65 @@ const Messages: { [k in EnumMsg]: IMessageValue } = {
     },
     [EnumMsg.DescricaoDoSistema]: {
         enUS: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus tenetur rerum perferendis quae repellat a quos recusandae quam. Laboriosam alias corporis adipisci, nobis voluptate numquam veritatis mollitia eaque cupiditate.",
-        es:  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus tenetur rerum perferendis quae repellat a quos recusandae quam. Laboriosam alias corporis adipisci, nobis voluptate numquam veritatis mollitia eaque cupiditate.",
-        ptBR:  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus tenetur rerum perferendis quae repellat a quos recusandae quam. Laboriosam alias corporis adipisci, nobis voluptate numquam veritatis mollitia eaque cupiditate.",
+        es: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus tenetur rerum perferendis quae repellat a quos recusandae quam. Laboriosam alias corporis adipisci, nobis voluptate numquam veritatis mollitia eaque cupiditate.",
+        ptBR: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus tenetur rerum perferendis quae repellat a quos recusandae quam. Laboriosam alias corporis adipisci, nobis voluptate numquam veritatis mollitia eaque cupiditate.",
     },
+    [EnumMsg.Dashboard]: {
+        enUS: "Dashboard",
+        es: "Dashboard",
+        ptBR: "Dashboard",
+    },
+    [EnumMsg.Favorito]: {
+        enUS: "Favorite",
+        es: "Favorito",
+        ptBR: "Favorito",
+    },
+    [EnumMsg.Padrao]: {
+        enUS: "Default",
+        es: "Predeterminado",
+        ptBR: "Padrão",
+    },
+    [EnumMsg.Ocultar]: {
+        enUS: "Hide",
+        es: "Esconder",
+        ptBR: "Ocultar",
+    },
+    [EnumMsg.MoverParaCima]: {
+        enUS: "Move up",
+        es: "Muévete a la arriba",
+        ptBR: "Mover para cima",
+    },
+    [EnumMsg.MoverParaBaixo]: {
+        enUS: "Move down",
+        es: "Muévete a la abajo",
+        ptBR: "Mover para baixo",
+    },
+    [EnumMsg.MoverParaDireita]: {
+        enUS: "Move right",
+		es: "Muévete a la derecha",
+		ptBR: "Mover para direita",
+    },
+    [EnumMsg.MoverParaEsquerda]: {
+        enUS: "Move left",
+		es: "Muévete a la Izquierda",
+		ptBR: "Mover para esquerda",
+    },
+    [EnumMsg.Pesquisar]: {
+		enUS: "Search",
+		es: "Buscar",
+		ptBR: "Pesquisar",
+	},
+    [EnumMsg.NewTickets]:{
+        enUS: "New Tickets",
+		es: "Entradas nuevas",
+		ptBR: "Novos ingressos",
+    },
+    [EnumMsg.Tickets]:{
+        enUS: "Tickets",
+		es: "Entradas",
+		ptBR: "Ingressos",
+    },
+    
 };
 
 export default Messages;

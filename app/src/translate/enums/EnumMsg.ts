@@ -11,7 +11,18 @@ enum EnumMsg {
     LembrarDeMim,
     EsqueceuSuaSenha,
     TermosDeUsoPoliticaDePrivacidade,
-    DescricaoDoSistema
+    DescricaoDoSistema,
+    Dashboard,
+    Favorito,
+    Padrao,
+    Ocultar,
+    MoverParaCima,
+    MoverParaBaixo,
+    MoverParaEsquerda,
+    MoverParaDireita,
+    Pesquisar,
+    NewTickets,
+    Tickets
 }
 
 export default EnumMsg;

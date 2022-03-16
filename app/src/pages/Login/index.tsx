@@ -22,11 +22,12 @@ const LoginPage: FC<IProps> = (props) => {
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        debugger;
+
         e.preventDefault();
         singIn({ email, password })
             .then((data) => {
-                authDispatch({ type: "SIGN_IN", payload: { token: data.token, user: data.user } });
+
+                authDispatch({ type: "SIGN_IN", payload: { token: data.token, user: data.user, role: data.role } });
                 props.routeNavigate("/dashboard");
             })
             .catch((err) => {

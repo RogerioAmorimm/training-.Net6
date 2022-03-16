@@ -7,5 +7,6 @@ namespace Microservices.Dtos.UserDto
     {
         public string Token { get; set; }
         public UserDto User { get; set; }
+        public string Role{ get; set; }
     }
 }

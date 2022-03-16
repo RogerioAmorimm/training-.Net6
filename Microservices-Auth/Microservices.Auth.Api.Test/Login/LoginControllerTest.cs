@@ -25,7 +25,7 @@ namespace Microservices.Auth.Api.Test.Login
         public async Task LoginUserAsync()
         {
             var response = await DoRequestAsync(HttpMethod.Post, "Login",
-                                                new LoginUserDto() { Email = "admin", Password = "Admin@123" });
+                                                new LoginUserDto() { Email = "admin@admin.com.br", Password = "Admin@123" });
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<OkObjectResult>(json);
 

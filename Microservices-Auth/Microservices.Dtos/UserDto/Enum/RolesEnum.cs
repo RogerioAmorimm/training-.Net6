@@ -6,7 +6,7 @@ namespace Microservices.Dtos.UserDto.Enum
     {
         [Description("Client")]
         client = 1,
-        [Description("Sellet")]
+        [Description("Seller")]
         seller
     }
 
