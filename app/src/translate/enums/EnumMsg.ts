@@ -22,7 +22,21 @@ enum EnumMsg {
     MoverParaDireita,
     Pesquisar,
     NewTickets,
-    Tickets
+    Tickets,
+    Confirmar,
+    Sucesso,
+    ErroInesperado,
+    Codigo,
+    Descricao,
+    ORegistroSeraExcluidoPermanentemente,
+    Confirmacao,
+    Cancelar,
+    Adicionar,
+    Voltar,
+    CodigoInvalido,
+    DescricaoEhObrigatorio,
+    ADescricaoDeveTerNoMinimoDoisCaracteres,
+    ADescricaoDeveTerNoMaximoCemCaracteres
 }
 
 export default EnumMsg;

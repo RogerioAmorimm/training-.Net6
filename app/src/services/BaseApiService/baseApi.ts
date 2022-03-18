@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { tokenStorageKey } from '../../contexts/AuthContext';
 import IDefaultServiceResponse from './interfaces/IDefaultServiceResponse';
 
-let _baseUrl = "";
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const authToken = localStorage.getItem(tokenStorageKey)
     return {
         ...config,
-        baseURL: _baseUrl,
         headers: {
             "Content-type": "Application/json",
             Authorization: authToken ? `Bearer ${authToken}` : "",
@@ -31,8 +29,9 @@ const onResponseError = (error: AxiosError<string>): Promise<IDefaultServiceResp
 }
 
 export function getAxiosInstance(baseUrl: string): AxiosInstance {
-    _baseUrl = baseUrl;
-    const axiosInstance = axios.create();
+    debugger;
+    
+    const axiosInstance = axios.create({ baseURL: baseUrl});
     axiosInstance.interceptors.request.use(onRequest, onRequestError);
     axiosInstance.interceptors.response.use(onResponse, onResponseError);
 

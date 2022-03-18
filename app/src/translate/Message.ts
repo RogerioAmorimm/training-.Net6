@@ -105,30 +105,104 @@ const Messages: { [k in EnumMsg]: IMessageValue } = {
     },
     [EnumMsg.MoverParaDireita]: {
         enUS: "Move right",
-		es: "Muévete a la derecha",
-		ptBR: "Mover para direita",
+        es: "Muévete a la derecha",
+        ptBR: "Mover para direita",
     },
     [EnumMsg.MoverParaEsquerda]: {
         enUS: "Move left",
-		es: "Muévete a la Izquierda",
-		ptBR: "Mover para esquerda",
+        es: "Muévete a la Izquierda",
+        ptBR: "Mover para esquerda",
     },
     [EnumMsg.Pesquisar]: {
-		enUS: "Search",
-		es: "Buscar",
-		ptBR: "Pesquisar",
-	},
-    [EnumMsg.NewTickets]:{
+        enUS: "Search",
+        es: "Buscar",
+        ptBR: "Pesquisar",
+    },
+    [EnumMsg.NewTickets]: {
         enUS: "New Tickets",
-		es: "Entradas nuevas",
-		ptBR: "Novos ingressos",
+        es: "Entradas nuevas",
+        ptBR: "Novos ingressos",
     },
-    [EnumMsg.Tickets]:{
+    [EnumMsg.Tickets]: {
         enUS: "Tickets",
-		es: "Entradas",
-		ptBR: "Ingressos",
+        es: "Entradas",
+        ptBR: "Ingressos",
     },
-    
+    [EnumMsg.Confirmar]: {
+        enUS: "Confirm",
+        es: "Confirmar",
+        ptBR: "Confirmar",
+    },
+    [EnumMsg.Sucesso]: {
+        enUS: "Success",
+        es: "Éxito",
+        ptBR: "Sucesso",
+    },
+    [EnumMsg.ErroInesperado]:
+    {
+        enUS: "Unexpected error",
+        es: "Error inesperado",
+        ptBR: "Erro inesperado",
+    },
+    [EnumMsg.Codigo]: {
+        enUS: "Code",
+        es: "Código",
+        ptBR: "Código",
+    },
+    [EnumMsg.Descricao]: {
+        enUS: "Description",
+        es: "Descripción",
+        ptBR: "Descrição",
+    },
+    [EnumMsg.ORegistroSeraExcluidoPermanentemente]: {
+        enUS: "The record will be permanently deleted",
+        es: "El registro se eliminará de forma permanente",
+        ptBR: "O registro será excluído permanentemente",
+    },
+    [EnumMsg.Confirmacao]: {
+        enUS: "Confirmation",
+        es: "Confirmación",
+        ptBR: "Confirmação",
+    },
+    [EnumMsg.Cancelar]: {
+        enUS: "Cancel",
+        es: "Cancelar",
+        ptBR: "Cancelar",
+    },
+    [EnumMsg.Adicionar]: {
+        enUS: "Add",
+        es: "Agregar",
+        ptBR: "Adicionar",
+    },
+    [EnumMsg.Voltar]: {
+        enUS: "Return",
+        es: "Regreso",
+        ptBR: "Voltar",
+    },
+    [EnumMsg.CodigoInvalido]: {
+        enUS: "Invalid code",
+        es: "Código invalido",
+        ptBR: "Código inválido",
+    },
+    [EnumMsg.DescricaoEhObrigatorio]:
+    {
+        enUS: "Description is required",
+        es: "Se requiere la Descripción",
+        ptBR: "Desrição é obrigatória",
+    },
+    [EnumMsg.ADescricaoDeveTerNoMinimoDoisCaracteres]:
+    {
+        enUS: "The description must be at least 2 characters long",
+        es: "La descripción debe tener al menos 2 caracteres",
+        ptBR: "A descrição deve ter no mínimo 2 caracteres",
+    },
+    [EnumMsg.ADescricaoDeveTerNoMaximoCemCaracteres]: {
+        enUS: "The description must have a maximum of 100 characters",
+        es: "La descripción debe tener un máximo de 100 caracteres",
+        ptBR: "A descrição deve ter no máximo 100 caracteres"
+    }
+
+
 };
 
 export default Messages;
