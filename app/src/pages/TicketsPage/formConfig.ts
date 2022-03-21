@@ -5,17 +5,17 @@ import EnumMsg from "../../translate/enums/EnumMsg";
 
 export const configCadastro: IConfigField[] = [
 	{
-		name: "Tipo",
+		name: "typeTopic",
 		label: EnumMsg.Codigo,
-		fieldType: EnumFieldType.text,
+		fieldType: EnumFieldType.number,
 		divSize: { xs: 12, lg: 3, xl: 2 },
-		validate: async (value: string) => {
-			if (validator.isEmpty(value, { ignore_whitespace: true })) return EnumMsg.DescricaoEhObrigatorio;
-			
+		validate: async (value: number) => {
+			if (!(value > 0)) return EnumMsg.CodigoInvalido;
+
 		},
 	},
 	{
-		name: "Descricao",
+		name: "description",
 		label: EnumMsg.Descricao,
 		fieldType: EnumFieldType.text,
 		divSize: { xs: 12, lg: 9, xl: 10 },

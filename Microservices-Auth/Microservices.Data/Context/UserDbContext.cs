@@ -24,20 +24,27 @@ namespace Microservices.Data.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            var userAdmin = CreateAdminUser();
-            userAdmin.PasswordHash = new PasswordHasher<CustomIdentityUser>()
-                                        .HashPassword(userAdmin, password);
-
-            builder.Entity<CustomIdentityUser>().HasData(userAdmin);
-            builder.Entity<IdentityRole<Guid>>().HasData(
-            new IdentityRole<Guid>
+            var adminRole = new IdentityRole<Guid>
             {
                 Id = Guid.NewGuid(),
                 Name = userName,
                 NormalizedName = userName.ToUpper()
-            });
+            };
+
+            builder.Entity<IdentityRole<Guid>>().HasData(adminRole);
 
             builder.Entity<IdentityRole<Guid>>().HasData(BuildRoles());
+
+            var userAdmin = CreateAdminUser();
+
+            userAdmin.PasswordHash = new PasswordHasher<CustomIdentityUser>()
+                                        .HashPassword(userAdmin, password);
+
+            builder.Entity<CustomIdentityUser>().HasData(userAdmin);
+            
+            var roleToAdminUser = new IdentityUserRole<Guid> { RoleId = adminRole.Id, UserId = userAdmin.Id };
+
+            builder.Entity<IdentityUserRole<Guid>>().HasData(roleToAdminUser);
 
         }
         private IEnumerable<IdentityRole<Guid>> BuildRoles()

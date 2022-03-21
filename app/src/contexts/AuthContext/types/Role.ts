@@ -1,3 +1,3 @@
-type Role = "client" | "seller" | undefined;
+type Role = "producer" | "consumer";
 
 export default Role;

@@ -30,7 +30,7 @@ namespace Microservices.Auth.Api.Test.Login
                                                     Password = "@Teste123",
                                                     RePassword = "@Teste123",
                                                     Email = "teste@teste.com",
-                                                    Role = Roles.client
+                                                    Role = Roles.consumer
                                                 });
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<CreateUserDto>(json);

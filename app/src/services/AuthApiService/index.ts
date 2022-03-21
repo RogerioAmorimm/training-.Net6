@@ -7,7 +7,6 @@ const baseUrl = "https://localhost:44333/"
 const axiosInstance = getAxiosInstance(baseUrl);
 
 export const singIn = async (param: ISignInParameter): Promise<ISignInResult> => {
-    debugger;
     const reponse = await axiosInstance.post<ISignInResult>("Login", param);
     return reponse.data;
 }

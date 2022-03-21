@@ -10,7 +10,7 @@ const DashboardPage: FC<IProps> = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    return role === "client"
+    return role === "consumer"
         ? <TicketsPage onlylistMode={true} routeLocation={location} routeNavigate={navigate} routeParams={params} />
         : <TicketsPage onlylistMode={false} routeLocation={location} routeNavigate={navigate} routeParams={params} />;
 

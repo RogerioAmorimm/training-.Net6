@@ -200,6 +200,11 @@ const Messages: { [k in EnumMsg]: IMessageValue } = {
         enUS: "The description must have a maximum of 100 characters",
         es: "La descripción debe tener un máximo de 100 caracteres",
         ptBR: "A descrição deve ter no máximo 100 caracteres"
+    },
+    [EnumMsg.UserName]:{
+        enUS: "From",
+        es: "Desde",
+        ptBR: "A partir de"
     }
 
 

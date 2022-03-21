@@ -36,7 +36,8 @@ enum EnumMsg {
     CodigoInvalido,
     DescricaoEhObrigatorio,
     ADescricaoDeveTerNoMinimoDoisCaracteres,
-    ADescricaoDeveTerNoMaximoCemCaracteres
+    ADescricaoDeveTerNoMaximoCemCaracteres,
+    UserName
 }
 
 export default EnumMsg;

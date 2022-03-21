@@ -38,6 +38,7 @@ function CadastroPage<T>({ formConfig, service, onlyList }: IProps<T>) {
 					<Listagem<T> onEdit={setIdEdit} service={service} />
 				) : (
 					<Cadastro idEdit={idEdit} onUpdated={() => setShowList(true)} formConfig={formConfig} service={service} />
+
 				)}
 			</S.Content>
 		</Container>

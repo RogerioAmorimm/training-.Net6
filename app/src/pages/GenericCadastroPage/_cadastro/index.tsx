@@ -14,8 +14,9 @@ function Cadastro<T>({ idEdit, onAdded, onUpdated, service, formConfig }: IProps
 	} = useAuth();
 
 	const [initialValues, setInitialValues] = useState<T>({} as T);
-
+	
 	const handleSubmit = (data: T, actions: FormikHelpers<T>) => {
+		
 		actions.setSubmitting(true);
 
 		if (!idEdit) {

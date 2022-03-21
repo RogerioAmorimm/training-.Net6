@@ -29,7 +29,6 @@ const onResponseError = (error: AxiosError<string>): Promise<IDefaultServiceResp
 }
 
 export function getAxiosInstance(baseUrl: string): AxiosInstance {
-    debugger;
     
     const axiosInstance = axios.create({ baseURL: baseUrl});
     axiosInstance.interceptors.request.use(onRequest, onRequestError);

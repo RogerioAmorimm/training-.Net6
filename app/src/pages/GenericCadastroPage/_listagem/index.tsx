@@ -22,8 +22,12 @@ function Listagem<T>({ onEdit, service }: IProps<T>) {
 	const handleRefresh = useCallback(
 		(id: number) => {
 			service
-				.get()
-				.then(setLista)
+				.get(1)
+				.then((data) => {
+					debugger;
+					console.log(data);
+					setLista(data);
+				})
 				.catch((err) => {
 					notify(translate(EnumMsg.ErroInesperado), "warning", 2000);
 					console.error(err);
@@ -32,33 +36,25 @@ function Listagem<T>({ onEdit, service }: IProps<T>) {
 		[translate, service]
 	);
 
-	const handleDelete = () => {
-		service
-			.delete(idDelete)
-			.then(() => {
-				notify(translate(EnumMsg.Sucesso), "success", 2000);
-				setIdDelete("");
-			})
-			.catch((err) => {
-				notify(translate(EnumMsg.ErroInesperado), "warning", 2000);
-				console.error(err);
-			});
-	};
+	useEffect(() => {
+		handleRefresh(0);
+	},
+		[handleRefresh])
 
 	return (
 		<>
-			<DataGrid height={440} dataSource={lista} keyExpr="id" showBorders={true} onContentReady={() => setLoading(false)} showRowLines rowAlternationEnabled>
+			<DataGrid height={440} dataSource={lista} keyExpr={['typeTopic','description']} showBorders={true} onContentReady={() => setLoading(false)} showRowLines rowAlternationEnabled>
 				<SearchPanel visible highlightCaseSensitive={false} placeholder={translate(EnumMsg.Pesquisar)} width={300} />
 
 				<Scrolling mode="virtual" />
 				<LoadPanel enabled={loading} />
 
-				<Column dataField="codigo" caption={translate(EnumMsg.Codigo)} />
-				<Column dataField="descricao" caption={translate(EnumMsg.Descricao)} />
+				<Column dataField="typeTopic" caption={translate(EnumMsg.Codigo)} />
+				<Column dataField="description" caption={translate(EnumMsg.Descricao)} />
+				<Column dataField="userName" caption={translate(EnumMsg.UserName)} />
 				<Column cellRender={({ data }) => <IconButton icon={MdEdit} variant="outlined" color="secondary" onClick={() => onEdit(data.id)} />} width={50} />
 				<Column cellRender={({ data }) => <IconButton icon={MdDelete} variant="outlined" onClick={() => setIdDelete(data.id)} />} width={50} />
 			</DataGrid>
-			<Confirm handleCancel={() => setIdDelete(0)} handleConfirm={handleDelete} message={EnumMsg.ORegistroSeraExcluidoPermanentemente} open={!!idDelete} />
 		</>
 	);
 }

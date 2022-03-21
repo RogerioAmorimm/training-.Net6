@@ -90,17 +90,17 @@ namespace Microservices.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e1e011ac-af19-4b05-bd62-7253ce902c6d"),
+                            Id = new Guid("b4e3d78d-9344-454a-8c5d-ed269c0d8ba7"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ecd6d9d8-613e-4637-a181-01339a69019c",
+                            ConcurrencyStamp = "df8bd582-44d9-4964-914b-c93db16eb8be",
                             Email = "admin@admin.com.br",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM.BR",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJcTxybGXc+jm3+pOCea+AQEQDhurILWyxXPAnPCzpp1RgGpVFlN3e1dFi+XopT2XA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBRaT3EAnhlTOHDogjgEGVnsrzSTMt9XKeQ8yhqlEsnwkm+PeaQ0v4ZdOK6e39DPtw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e43b4fca-607e-4a62-81c3-a44565a87f10",
+                            SecurityStamp = "4d316f67-f9a4-4c73-8c04-c21d2333f785",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -136,24 +136,24 @@ namespace Microservices.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("18d9fb27-6dbc-488b-9353-07041dd3eaa8"),
-                            ConcurrencyStamp = "c3f1397b-2ad9-4d24-8848-d624c64cc9b0",
+                            Id = new Guid("cdcedca5-c0a1-492a-9121-1b5a4723b2c3"),
+                            ConcurrencyStamp = "29b1d8a6-c312-499f-9ce2-9c4e9b75582d",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("09b84653-a821-4b9a-886c-18379c05ec9c"),
-                            ConcurrencyStamp = "fb7ca0af-61a3-42c4-b4f3-a3feff611172",
-                            Name = "client",
-                            NormalizedName = "CLIENT"
+                            Id = new Guid("be510ef3-de6e-4806-975f-2fb4b53a8658"),
+                            ConcurrencyStamp = "cba7927d-0979-431f-b13d-d63e3ba95073",
+                            Name = "producer",
+                            NormalizedName = "PRODUCER"
                         },
                         new
                         {
-                            Id = new Guid("d7bdc0fc-c786-4c1a-96d2-1030d7de7f8d"),
-                            ConcurrencyStamp = "43494d13-e201-4bc0-a7eb-a19b4400fdd0",
-                            Name = "seller",
-                            NormalizedName = "SELLER"
+                            Id = new Guid("254b2e53-354f-4f5b-9d3b-d076c7d23573"),
+                            ConcurrencyStamp = "69bc03e8-4651-41da-ab52-c45483c0000e",
+                            Name = "consumer",
+                            NormalizedName = "CONSUMER"
                         });
                 });
 
@@ -239,6 +239,13 @@ namespace Microservices.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("b4e3d78d-9344-454a-8c5d-ed269c0d8ba7"),
+                            RoleId = new Guid("cdcedca5-c0a1-492a-9121-1b5a4723b2c3")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>

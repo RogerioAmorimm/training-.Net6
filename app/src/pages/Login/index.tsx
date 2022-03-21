@@ -26,7 +26,6 @@ const LoginPage: FC<IProps> = (props) => {
         e.preventDefault();
         singIn({ email, password })
             .then((data) => {
-
                 authDispatch({ type: "SIGN_IN", payload: { token: data.token, user: data.user, role: data.role } });
                 props.routeNavigate("/dashboard");
             })

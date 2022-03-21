@@ -4,10 +4,10 @@ namespace Microservices.Dtos.UserDto.Enum
 {
     public enum Roles : int
     {
-        [Description("Client")]
-        client = 1,
-        [Description("Seller")]
-        seller
+        [Description("Producer")]
+        producer = 1,
+        [Description("Consumer")]
+        consumer
     }
 
 }
