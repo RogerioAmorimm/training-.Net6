@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microservices.Requests.Api.Mappers;
-using Swashbuckle.AspNetCore.Filters;
+using Microservices.RequestsProducer.Api.Hubs.Ticket;
+using System.Threading.Tasks;
 
 namespace Microservices.Requests.Api
 {
@@ -20,7 +21,6 @@ namespace Microservices.Requests.Api
 
 
         private readonly IConfiguration _config;
-
 
         public Startup(IConfiguration config, IWebHostEnvironment env)
         {
@@ -31,47 +31,76 @@ namespace Microservices.Requests.Api
         {
 
             ConfigureEnvironment(app, env);
-            app.UseHttpsRedirection();
+
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMvc().UseApiVersioning();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservices.Requests.Api v1"));
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<TicketHub>("/hub/ticket-hub");
             });
 
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(m => { m.EnableEndpointRouting = false; });
             services.AddMediatR(typeof(Startup));
-
+            services.AddSignalR();
 
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(token =>
-            {
-                token.RequireHttpsMetadata = false;
-                token.SaveToken = true;
-                token.TokenValidationParameters = new TokenValidationParameters
+           .AddJwtBearer(token =>
+           {
+               token.RequireHttpsMetadata = false;
+               token.SaveToken = true;
+               token.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(
+                       Encoding.UTF8.GetBytes(SecurityKeyAuth.GetKey())
+                       ),
+                   ValidateIssuer = false,
+                   ValidateAudience = false,
+                   ClockSkew = TimeSpan.Zero,
+               };
+               token.Events = new JwtBearerEvents
+               {
+                   OnMessageReceived = context =>
+                   {
+                       var accessToken = context.Request.Headers.Authorization
+                       .ToString()
+                       .Replace("Bearer", "").Trim();
+
+                       var path = context.HttpContext.Request.Path;
+                       if (!string.IsNullOrEmpty(accessToken) &&
+                           (path.Value.StartsWith("/ticket-hub")))
+                       {
+                           context.Token = accessToken;
+                       }
+                       return Task.CompletedTask;
+                   }
+               };
+           });
+
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(SecurityKeyAuth.GetKey())
-                        ),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero,
-                };
-            });
+                    builder.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .SetIsOriginAllowed((host) => true)
+                           .AllowCredentials();
+                }));
 
-
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddApiVersioning(o =>
             {
                 o.ReportApiVersions = true;
@@ -81,6 +110,7 @@ namespace Microservices.Requests.Api
             services.AddControllers();
 
             IoC.Register(services);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservices.Requests-Producer.Api", Version = "v1" });
@@ -108,16 +138,15 @@ namespace Microservices.Requests.Api
                     }
                 });
             });
+
         }
         private void ConfigureEnvironment(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservices.Requests.Api v1"));
-                app.UseCors(opt => opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
+
         }
     }
 }

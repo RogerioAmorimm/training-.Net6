@@ -14,9 +14,9 @@ function Cadastro<T>({ idEdit, onAdded, onUpdated, service, formConfig }: IProps
 	} = useAuth();
 
 	const [initialValues, setInitialValues] = useState<T>({} as T);
-	
+
 	const handleSubmit = (data: T, actions: FormikHelpers<T>) => {
-		
+
 		actions.setSubmitting(true);
 
 		if (!idEdit) {
@@ -26,18 +26,6 @@ function Cadastro<T>({ idEdit, onAdded, onUpdated, service, formConfig }: IProps
 					actions.resetForm();
 					notify(translate(EnumMsg.Sucesso), "success", 2000);
 					onAdded && onAdded();
-				})
-				.catch((err) => {
-					console.error(err);
-					notify(translate(EnumMsg.ErroInesperado), "warning", 2000);
-				})
-				.finally(() => actions.setSubmitting(false));
-		} else {
-			service
-				.put(data)
-				.then(() => {
-					notify(translate(EnumMsg.Sucesso), "success", 2000);
-					onUpdated && onUpdated();
 				})
 				.catch((err) => {
 					console.error(err);

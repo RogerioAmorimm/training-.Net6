@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { tokenStorageKey } from '../../contexts/AuthContext';
+import { tokenStorageKey, useAuth } from '../../contexts/AuthContext';
 import IDefaultServiceResponse from './interfaces/IDefaultServiceResponse';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const authToken = localStorage.getItem(tokenStorageKey)
@@ -20,7 +21,6 @@ const onRequestError = (error: AxiosError): Promise<IDefaultServiceResponse<any>
 const onResponse = (response: AxiosResponse): AxiosResponse => response;
 
 const onResponseError = (error: AxiosError<string>): Promise<IDefaultServiceResponse<any>> => {
-
     const navigate = useNavigate();
     if (error?.response?.status === 401) {
         navigate("/");
@@ -29,12 +29,22 @@ const onResponseError = (error: AxiosError<string>): Promise<IDefaultServiceResp
 }
 
 export function getAxiosInstance(baseUrl: string): AxiosInstance {
-    
-    const axiosInstance = axios.create({ baseURL: baseUrl});
+
+    const axiosInstance = axios.create({ baseURL: baseUrl });
     axiosInstance.interceptors.request.use(onRequest, onRequestError);
     axiosInstance.interceptors.response.use(onResponse, onResponseError);
 
     return axiosInstance
+}
+
+export function getSignalRInstance(baseUrl: string, token: string): HubConnection {
+    
+    const signalRConnection = new HubConnectionBuilder()
+        .withUrl(baseUrl, { accessTokenFactory: () =>token })
+        .configureLogging(LogLevel.Information)
+        .build();
+
+    return signalRConnection
 }
 
 

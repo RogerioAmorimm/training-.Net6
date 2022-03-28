@@ -10,6 +10,7 @@ namespace Microservices.Requests.Api
         public static void Register(IServiceCollection services)
         {
             QueriesIoC.RegisterCommands(services);
+            ServicesIoc.RegisterServices(services);
             RegisterServices(services);
         }
 

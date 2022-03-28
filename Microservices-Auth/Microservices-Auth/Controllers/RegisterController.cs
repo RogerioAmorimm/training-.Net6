@@ -22,7 +22,7 @@ namespace Microservices_Auth.Controllers
         public async Task<IActionResult> RegisterUserAysync(CreateUserDto newUser) 
         {
             var result = await _service.CreateUserAsync(newUser);
-            return HandleReturn(result);
+            return result;
         }
     }
 }

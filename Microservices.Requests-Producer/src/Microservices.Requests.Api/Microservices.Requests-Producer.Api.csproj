@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microservices.Command\Microservices.Command.csproj" />
+    <ProjectReference Include="..\Microservices.Domain\Microservices.Domain.csproj" />
     <ProjectReference Include="..\Microservices.Dto\Microservices.Dto.csproj" />
     <ProjectReference Include="..\Microservices.Infrastructure\Microservices.Infrastructure.csproj" />
   </ItemGroup>

@@ -13,6 +13,7 @@ namespace Microservices_Auth
     {
         public static void Main(string[] args)
         {
+
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -1,5 +1,7 @@
+import { Topics } from "../types/Topic";
+
 export default interface ITicketPage {
-    userName:string;
-    description:string;
-    typeTopic:number;
+    description: string;
+    typeTopic: Topics;
+    usename: string;
 }

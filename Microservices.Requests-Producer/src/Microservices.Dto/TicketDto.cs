@@ -7,6 +7,5 @@ namespace Microservices.Dto
     {
         public Topic TypeTopic { get; set; }
         public string Description { get; set; }
-        public string UserName { get; set; }
     }
 }

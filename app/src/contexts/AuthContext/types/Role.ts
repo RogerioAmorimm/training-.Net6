@@ -1,3 +1,5 @@
-type Role = "producer" | "consumer";
 
-export default Role;
+export enum Role {
+    Producer = 1,
+    Consumer
+};

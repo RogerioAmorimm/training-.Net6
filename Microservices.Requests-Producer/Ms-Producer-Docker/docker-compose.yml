@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  ms-producer:
+    image: ms-producer:latest
+    ports:
+      - 12140:80
+    depends_on:
+      - mongo
+    restart: always
+    container_name: ms-producer
+    networks:
+      - mongo-compose-network
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: ms-producer
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - mongo-compose-network
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+    networks:
+      - mongo-compose-network
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    ports:
+      - "8888:8081"
+networks:
+  mongo-compose-network:
+    driver: bridge

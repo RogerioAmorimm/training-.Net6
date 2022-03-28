@@ -201,13 +201,70 @@ const Messages: { [k in EnumMsg]: IMessageValue } = {
         es: "La descripción debe tener un máximo de 100 caracteres",
         ptBR: "A descrição deve ter no máximo 100 caracteres"
     },
-    [EnumMsg.UserName]:{
+    [EnumMsg.UserName]: {
         enUS: "From",
         es: "Desde",
         ptBR: "A partir de"
+    },
+    [EnumMsg.UserNameEhObrigatorio]:
+    {
+        enUS: "UserName is required",
+        es: "Se requiere nombre de usuario",
+        ptBR: "Nome de usuário é obrigatório"
+    },
+    [EnumMsg.UserNameDeveTerNoMinimoDoisCaracteres]: {
+        enUS: "The username must be at least 2 characters long",
+        es: "El nombre de usuario debe tener al menos 2 caracteres",
+        ptBR: "O nome de usuário deve ter pelo menos 2 caracteres",
+    },
+
+    [EnumMsg.UserNameDeveTerNoMaximoCemCaracteres]: {
+        enUS: "The username must have a maximum of 16 characters",
+        es: "El nombre de usuario debe tener un máximo de 16 caracteres.",
+        ptBR: "O nome de usuário deve ter no máximo 16 caracteres"
+    },
+    [EnumMsg.Email]: {
+        enUS: "Email",
+        es: "Email",
+        ptBR: "Email"
+    },
+    [EnumMsg.Roles]: {
+        enUS: "Role",
+        es: "Papel",
+        ptBR: "Função"
+    },
+    [EnumMsg.Register]: {
+        enUS: "Register",
+        es: "Registrarse",
+        ptBR: "Cadastro"
+    },
+    [EnumMsg.ReSenha]: {
+        enUS: "Re Password",
+        es: "Volver a contraseña",
+        ptBR: "Re senha"
+    },
+    [EnumMsg.SenhaEhObrigatorio]: {
+        enUS: "Password is required",
+        es: "Se requiere contraseña",
+        ptBR: "Senha é obrigatorio"
+    },
+    [EnumMsg.EmailEhObrigatorio]:
+    {
+        enUS: "Email is required",
+        es: "Correo electronico es requerido",
+        ptBR: "O e-mail é obrigatório"
+    },
+    [EnumMsg.RoleEhObrigatorio]: {
+        enUS: "Role is required",
+        es: "Se requiere rol",
+        ptBR: "A função é obrigatória"
+    },
+    [EnumMsg.Topics]: {
+        enUS: "Topic",
+        es: "Tema",
+        ptBR: "Tema"
+
     }
-
-
 };
 
 export default Messages;

@@ -3,6 +3,7 @@ import IProps from "./interfaces/IProps";
 import EnumFieldType from "../../Form/enums/EnumFieldType";
 import TextField from "../TextField";
 import CheckField from "../CheckField";
+import SelectField from "../SelectField";
 
 const GenericField: FC<IProps> = ({ type, config, name, label }) => {
 	switch (type) {
@@ -20,7 +21,8 @@ const GenericField: FC<IProps> = ({ type, config, name, label }) => {
 
 		case EnumFieldType.boolean:
 			return <CheckField {...(config || {})} name={name} label={label} />;
-
+		case EnumFieldType.select:
+			return <SelectField {...(config || {})} name={name} label={label} />;
 		default:
 			return <TextField {...(config || {})} name={name} label={label} />;
 	}

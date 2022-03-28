@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@honkhonk/vite-plugin-svgr": "^1.1.0",
+    "@microsoft/signalr": "^6.0.3",
     "@types/validator": "^13.7.1",
     "axios": "^0.26.1",
     "devextreme": "^21.2.6",
@@ -16,6 +17,7 @@
     "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-dropdown-select": "^4.8.3",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.2",
     "styled-components": "^5.3.3",

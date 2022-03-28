@@ -1,5 +1,5 @@
 import IUser from "../Interfaces/IUser";
-import Role from "./Role";
+import { Role } from "./Role";
 
 interface IDispatch_SIGN_IN {
     type: "SIGN_IN";

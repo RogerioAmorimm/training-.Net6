@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microservices.Infrastructure.IoC;
 using Microservices.Requests.Api.Mappers;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microservices.Requests.Api
@@ -10,9 +11,11 @@ namespace Microservices.Requests.Api
         public static void Register(IServiceCollection services)
         {
             CommandsIoC.RegisterCommands(services);
+            RepositoriesIoC.RegisterRepositories(services);
+            QueriesIoC.RegisterQueries(services);
             RegisterServices(services);
+            
         }
-
         private static void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton(x => GetMapper());

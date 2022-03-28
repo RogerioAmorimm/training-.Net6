@@ -22,15 +22,49 @@ namespace Microservices_Auth
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            ConfigureEnvironment(app, env);
+
+            app.UseCors("CorsPolicy");
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservices_Auth v1"));
+
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(m => { m.EnableEndpointRouting = false; });
+
+            services.AddApiVersioning(o =>
+            {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+            });
+
+            Ioc.Register(services);
+            
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservices_Auth", Version = "v1" });
+            });
+
             services.AddDbContext<UserDbContext>(opt =>
             {
                 var connectionString = Configuration.GetConnectionString(nameof(UserDbContext));
                 opt.UseSqlServer(connectionString);
             }
             );
-           
+
             services.AddIdentity<CustomIdentityUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<UserDbContext>();
 
@@ -38,42 +72,24 @@ namespace Microservices_Auth
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<CustomIdentityUser>>(TokenOptions.DefaultProvider);
 
-            services.AddApiVersioning(o =>
-            {
-                o.ReportApiVersions = true;
-                o.AssumeDefaultVersionWhenUnspecified = true;
-            });
-            
-            services.AddControllers();
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+               builder =>
+               {
+                   builder.AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .SetIsOriginAllowed((host) => true)
+                          .AllowCredentials();
+               }));
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservices_Auth", Version = "v1" });
-            });
-            Ioc.Register(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        private void ConfigureEnvironment(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(opt => opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()) ;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservices_Auth v1"));
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }

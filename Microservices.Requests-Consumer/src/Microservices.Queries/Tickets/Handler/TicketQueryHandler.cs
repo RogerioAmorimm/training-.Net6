@@ -25,19 +25,17 @@ namespace Microservices.Queries.Tickets.Handler
             try
             {
              
-                
                 var config = new ConsumerConfig
                 {
                     BootstrapServers = _config.GetSection("Kafka:Host").Value,
                     GroupId = $"{request.TypeTopic}-group-0",
-                    AutoOffsetReset = AutoOffsetReset.Earliest,
                 };
 
                 using var consumer = new ConsumerBuilder<string, string>(config).Build();
                 consumer.Subscribe(request.TypeTopic.ToString());
                 var message = consumer.Consume(cancellationToken).Message;
                 var dto = JsonConvert.DeserializeObject<TicketDto>(message.Value);
-                dto.TypeTopic = request.TypeTopic;
+                dto.TypeTopic = request.TypeTopic.ToString();
                 return Task.FromResult(dto);
             }
             catch (Exception)

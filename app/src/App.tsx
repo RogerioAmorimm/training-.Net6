@@ -9,7 +9,7 @@ import LightTheme from "./styles/themes/LightTheme";
 import GlobalStyles from './styles/globals'
 import "devextreme/dist/css/dx.light.css";
 import { MenuProvider } from "./contexts/MenuContext";
-import { TicketProvider } from "./contexts/TicketsContext";
+import { TopicProvider } from "./contexts/TopicContext";
 
 const App: FC = () => {
   return (
@@ -17,7 +17,7 @@ const App: FC = () => {
       <TranslateProvider>
         <ThemeProvider theme={LightTheme}>
           <MenuProvider>
-            <TicketProvider>
+            <TopicProvider>
               <GlobalStyles />
               <BrowserRouter>
                 <Routes>
@@ -53,7 +53,7 @@ const App: FC = () => {
                   })}
                 </Routes>
               </BrowserRouter>
-            </TicketProvider>
+            </TopicProvider>
           </MenuProvider>
         </ThemeProvider>
       </TranslateProvider>

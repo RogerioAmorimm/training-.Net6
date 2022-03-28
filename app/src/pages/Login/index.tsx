@@ -14,13 +14,14 @@ import Button from "../../components/Button";
 import CheckBox from "../../components/CheckBox";
 import { Link } from "react-router-dom";
 import ChangeLanguage from "../../components/ChangeLanguage";
+import Register from "../../components/Register";
 const LoginPage: FC<IProps> = (props) => {
     const theme = useTheme();
     const { translate } = useTranslate();
     const { dispatch: authDispatch } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [showRegister, setShowRegister] = useState<boolean>(false);
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
@@ -57,58 +58,66 @@ const LoginPage: FC<IProps> = (props) => {
                             </S.LeftPanelHeader>
 
                             <S.LeftPanelMain>
-                                <S.Form onSubmit={handleSubmit}>
-                                    <Grid direction="column" spacing={3} align="stretch" justify="center" fullHeight>
-                                        <Grid item>
-                                            <p>{translate(EnumMsg.AcesseParaContinuar)}</p>
-                                        </Grid>
-                                        <Grid item>
-                                            <Input
-                                                required
-                                                rounded="lg"
-                                                mode="email"
-                                                label={EnumMsg.Usuario}
-                                                autoFocus
-                                                name="email"
-                                                value={email}
-                                                onChange={(value) => setEmail(value || "")}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <Input
-                                                required
-                                                rounded="lg"
-                                                mode="password"
-                                                label={EnumMsg.Senha}
-                                                name="password"
-                                                value={password}
-                                                onChange={(value) => setPassword(value || "")}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <Grid justify="space-between" align="center">
-                                                <Grid item xs={12} md={8}>
-                                                    <Grid align="center">
-                                                        <Grid item>
-                                                            <Button type="submit" rounded="lg">
-                                                                {translate(EnumMsg.Acessar)}
-                                                            </Button>
-                                                            &nbsp;
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <CheckBox label={EnumMsg.LembrarDeMim} />
-                                                        </Grid>
-                                                    </Grid>
+                                {
+                                    showRegister
+                                        ? (
+                                            <Register setBackState={setShowRegister}/> 
+                                        )
+                                        :
+                                        (<S.Form onSubmit={handleSubmit}>
+                                            <Grid direction="column" spacing={3} align="stretch" justify="center" fullHeight>
+                                                <Grid item>
+                                                    <p>{translate(EnumMsg.AcesseParaContinuar)}</p>
                                                 </Grid>
-                                                <Grid item xs={12} md={4}>
-                                                    <Grid justify="flex-end">
-                                                        <Link to="/">{translate(EnumMsg.EsqueceuSuaSenha)}</Link>
+                                                <Grid item>
+                                                    <Input
+                                                        required
+                                                        rounded="lg"
+                                                        mode="email"
+                                                        label={EnumMsg.Usuario}
+                                                        autoFocus
+                                                        name="email"
+                                                        value={email}
+                                                        onChange={(value) => setEmail(value || "")}
+                                                    />
+                                                </Grid>
+                                                <Grid item>
+                                                    <Input
+                                                        required
+                                                        rounded="lg"
+                                                        mode="password"
+                                                        label={EnumMsg.Senha}
+                                                        name="password"
+                                                        value={password}
+                                                        onChange={(value) => setPassword(value || "")}
+                                                    />
+                                                </Grid>
+                                                <Grid item>
+                                                    <Grid justify="space-between" align="center">
+                                                        <Grid item xs={12} md={8}>
+                                                            <Grid align="center">
+                                                                <Grid item>
+                                                                    <Button type="submit" rounded="lg">
+                                                                        {translate(EnumMsg.Acessar)}
+                                                                    </Button>
+                                                                    &nbsp;
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <CheckBox label={EnumMsg.LembrarDeMim} />
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={4}>
+                                                            <Grid justify="flex-end">
+                                                                <a onClick={() => setShowRegister((v) => !v)}>{translate(EnumMsg.Register)}</a> 
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Grid>
-                                </S.Form>
+                                        </S.Form>)
+                                }
+
                             </S.LeftPanelMain>
 
                             <S.LeftPanelFooter>
@@ -138,7 +147,7 @@ const LoginPage: FC<IProps> = (props) => {
                     </S.RightPanel>
                 </Grid>
             </S.GridContainer>
-        </Container>
+        </Container >
     )
 }
 export default LoginPage;

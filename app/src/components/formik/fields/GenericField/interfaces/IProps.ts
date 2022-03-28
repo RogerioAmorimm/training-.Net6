@@ -6,4 +6,5 @@ export default interface IProps {
 	config: object;
 	name: string;
 	label?: EnumMsg;
+	data?: any[]
 }

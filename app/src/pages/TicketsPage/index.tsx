@@ -5,7 +5,10 @@ import IProps from "./interfaces/IProps";
 import ITicketPage from "./interfaces/ITicketPage";
 import { TicketServiceModule as service } from '../../services/RequestApiService'
 
-const TicketsPage: FC<IProps> = ({ onlylistMode }) =>
-    <CadastroPage<ITicketPage> formConfig={configCadastro} service={service} onlyList={onlylistMode || false} />;
+const TicketsPage: FC<IProps> = () =>
+    <CadastroPage<ITicketPage> formConfig={configCadastro} service={service} />;
+
+
+
 
 export default TicketsPage;

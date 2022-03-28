@@ -37,7 +37,18 @@ enum EnumMsg {
     DescricaoEhObrigatorio,
     ADescricaoDeveTerNoMinimoDoisCaracteres,
     ADescricaoDeveTerNoMaximoCemCaracteres,
-    UserName
+    UserName,
+    UserNameEhObrigatorio,
+    UserNameDeveTerNoMinimoDoisCaracteres,
+    UserNameDeveTerNoMaximoCemCaracteres,
+    Email,
+    Roles,
+    Register,
+    ReSenha,
+    SenhaEhObrigatorio,
+    EmailEhObrigatorio,
+    RoleEhObrigatorio,
+    Topics
 }
 
 export default EnumMsg;

@@ -4,5 +4,4 @@ import IBaseCadastroPageService from "../../../services/interfaces/IBaseCadastro
 export default interface IProps<T> {
 	service: IBaseCadastroPageService<T>;
 	formConfig: IConfigField[];
-	onlyList: boolean;
 }

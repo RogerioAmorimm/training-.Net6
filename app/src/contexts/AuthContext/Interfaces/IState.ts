@@ -1,4 +1,4 @@
-import Role from "../types/Role";
+import { Role } from "../types/Role";
 import IUser from "./IUser";
 
 export default interface IState {

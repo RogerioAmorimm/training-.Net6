@@ -3,7 +3,7 @@ import IState from "./Interfaces/IState";
 import IUser from "./Interfaces/IUser";
 import IValue from "./Interfaces/IValue";
 import reducer from "./reducer";
-import Role from "./types/Role";
+import { Role } from "./types/Role";
 
 export const tokenStorageKey: string = "tsk";
 const storageToken = localStorage.getItem(tokenStorageKey) as string | null;
@@ -16,7 +16,7 @@ const roleUser = localStorage.getItem(roleStorageKey) as Role | null;
 
 const AuthContext = createContext({} as IValue);
 
-const initialState: IState = { user: storageUser, token: storageToken, role: roleUser};
+const initialState: IState = { user: storageUser, token: storageToken, role: roleUser };
 export const AuthProvider: FC = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -24,8 +24,7 @@ export const AuthProvider: FC = ({ children }) => {
         if (state.token && state.user && state.role) {
             localStorage.setItem(userStorageKey, JSON.stringify(state.user));
             localStorage.setItem(tokenStorageKey, state.token);
-            localStorage.setItem(roleStorageKey, state.role);
-            
+            localStorage.setItem(roleStorageKey, state.role.toString());
         } else {
             localStorage.removeItem(tokenStorageKey);
             localStorage.removeItem(userStorageKey);

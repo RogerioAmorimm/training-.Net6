@@ -5,6 +5,9 @@ using Microservices.Dto;
 using Microservices.Requests.Api.Controllers.ApiV1.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Microservices.Requests.Api.Controllers.ApiV1.ProducerTicket
@@ -24,8 +27,10 @@ namespace Microservices.Requests.Api.Controllers.ApiV1.ProducerTicket
         [HttpPost("producer-ticket")]
         public async Task CreateTicketEventAsync(TicketDto dto)
         {
-            dto.UserName = User.Identity.Name;
-            await _mediator.Publish(_mapper.Map<CreateTicketEvent>(dto));
+            var ticketEvent = _mapper.Map<CreateTicketEvent>(dto);
+            ticketEvent.UserId = new Guid(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier.ToString())?.Value);
+            ticketEvent.UserName = User.Identity.Name;
+            await _mediator.Publish(ticketEvent);
         }
     }
 

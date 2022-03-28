@@ -30,7 +30,7 @@ namespace Microservices.Command.Tickets.Handler
 
                 using var producer = new ProducerBuilder<string, string>(new ProducerConfig()
                 {
-                    BootstrapServers = _config.GetSection("Kafka:Host").Value
+                    BootstrapServers = _config.GetSection("Kafka:Host").Value,
                 }).Build();
 
 
@@ -44,7 +44,7 @@ namespace Microservices.Command.Tickets.Handler
                                                    }
                 );
             }
-            catch (Exception ed)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  ms-auth:
+    image: ms-auth:latest
+    container_name: ms-auth
+    ports:
+      - 44333:80
+    depends_on:
+      - mssql
+    networks:
+      - connection
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - /var/opt/mssql
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Password123!
+    networks:
+      - connection
+
+networks:
+  connection:
+    driver: bridge

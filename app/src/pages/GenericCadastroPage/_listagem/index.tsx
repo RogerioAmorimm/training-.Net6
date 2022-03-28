@@ -7,53 +7,74 @@ import { useTranslate } from "../../../contexts/TranslateContext";
 import EnumMsg from "../../../translate/enums/EnumMsg";
 import IconButton from "../../../components/IconButton";
 import { MdDelete, MdEdit } from "react-icons/md";
-import Confirm from "../../../components/Confirm";
+import { HubConnectionState } from "@microsoft/signalr";
+import { Role } from "../../../contexts/AuthContext/types/Role";
+import { useTopics } from "../../../contexts/TopicContext";
 
 function Listagem<T>({ onEdit, service }: IProps<T>) {
 	const [lista, setLista] = useState<T[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [idDelete, setIdDelete] = useState<string>("");
-
+	const { state: { topic } } = useTopics();
 	const {
-		state: { user },
+		state: { role, token },
 	} = useAuth();
 	const { translate } = useTranslate();
 
+	const handlerProducer = async () => {
+		const connection = await service.openConnectionSinalR("http://localhost:12140/hub/ticket-hub", token ?? "");
+		connection.invoke<T[]>("GetTicketsAsync").then((data) => setLista(data));
+
+	}
+	const handlerConsumer = async (topic: number) => {
+
+		let connection = await service.openConnectionSinalR("http://localhost:12141/ticket-hub", token ?? "");
+
+		connection.stream<T>("ListenTickets", topic)
+			.subscribe({
+				next: (item) => {
+					setLista(lista => [...lista, item]);
+				},
+				complete: () => {
+					console.log("completed");
+				},
+				error: (err) => {
+					if (connection.state === HubConnectionState.Disconnecting)
+						connection.off("ListenTickets");
+					else {
+						notify(translate(EnumMsg.ErroInesperado), "warning", 2000);
+						console.error(err);
+					}
+				}
+			});
+	};
+
 	const handleRefresh = useCallback(
-		(id: number) => {
-			service
-				.get(1)
-				.then((data) => {
-					debugger;
-					console.log(data);
-					setLista(data);
-				})
-				.catch((err) => {
-					notify(translate(EnumMsg.ErroInesperado), "warning", 2000);
-					console.error(err);
-				});
+		async (topic: number) => {
+			if (role?.toString().toLowerCase() === Role[Role.Consumer].toLowerCase())
+				handlerConsumer(topic);
+			else handlerProducer();
 		},
 		[translate, service]
 	);
 
 	useEffect(() => {
-		handleRefresh(0);
-	},
-		[handleRefresh])
+		setLista([]);
+		handleRefresh(topic);
+	}, [handleRefresh, topic])
 
 	return (
 		<>
-			<DataGrid height={440} dataSource={lista} keyExpr={['typeTopic','description']} showBorders={true} onContentReady={() => setLoading(false)} showRowLines rowAlternationEnabled>
+			<DataGrid height={440} dataSource={lista} keyExpr={['typeTopic', 'description']} showBorders={true} onContentReady={() => setLoading(false)} showRowLines rowAlternationEnabled>
 				<SearchPanel visible highlightCaseSensitive={false} placeholder={translate(EnumMsg.Pesquisar)} width={300} />
 
 				<Scrolling mode="virtual" />
 				<LoadPanel enabled={loading} />
 
-				<Column dataField="typeTopic" caption={translate(EnumMsg.Codigo)} />
+				<Column dataField="typeTopic" caption={translate(EnumMsg.Topics)} />
 				<Column dataField="description" caption={translate(EnumMsg.Descricao)} />
 				<Column dataField="userName" caption={translate(EnumMsg.UserName)} />
 				<Column cellRender={({ data }) => <IconButton icon={MdEdit} variant="outlined" color="secondary" onClick={() => onEdit(data.id)} />} width={50} />
-				<Column cellRender={({ data }) => <IconButton icon={MdDelete} variant="outlined" onClick={() => setIdDelete(data.id)} />} width={50} />
+				<Column cellRender={({ data }) => <IconButton icon={MdDelete} variant="outlined" onClick={() =>{}} />} width={50} />
 			</DataGrid>
 		</>
 	);

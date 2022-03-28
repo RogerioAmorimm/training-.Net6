@@ -30,45 +30,53 @@ namespace Microservices.Validators.UserValidator
         private void ValidatePassword()
         {
             RuleFor(x => x.RePassword)
-                .NotEmpty();
-            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
+                .NotNull();
+
+            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotNull()
                 .Equal(x => x.RePassword)
                 .WithMessage("Passwords must be the same")
                 .MinimumLength(6)
                 .WithMessage("Password must contain at least 6 characters")
-                .Must(pass=>ValidateStrongPassword(pass))
+                .Must(pass => ValidateStrongPassword(pass))
                 .WithMessage("the password must have an uppercase and a special character");
 
         }
-        private bool ValidateStrongPassword(string password) 
+        private bool ValidateStrongPassword(string password)
         {
-            if (Regex.IsMatch(password, "(?=.*[@#$%^&+=])")
+            if (!string.IsNullOrWhiteSpace(password)
+                && Regex.IsMatch(password, "(?=.*[@#$%^&+=])")
                && password.Any(x => char.IsDigit(x))
                && password.Any(x => char.IsUpper(x))) return true;
             return false;
         }
-        private void ValidateEmail() 
+        private void ValidateEmail()
         {
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
+                .NotNull()
                 .EmailAddress()
                 .Must((_, email) => ValidateEmail(email))
                 .WithMessage("email is already in use, try another");
         }
         private bool ValidateEmail(string email)
-            =>  _userRepository.GetUserByEmail(email) == null;
-        private void ValidateRole() 
+            => _userRepository.GetUserByEmail(email) == null;
+        private void ValidateRole()
         {
             RuleFor(x => x.Role)
                 .NotNull()
                 .NotEmpty()
-                .Must((_, x)=> IsValidRole(x))
+                .Must((_, x) => IsValidRole(x))
                 .WithMessage("select a valid role");
         }
-        private bool IsValidRole(Roles role) 
+        private bool IsValidRole(Roles role)
             => Enum.IsDefined(typeof(Roles), role);
-            
+
         public override Task<ValidationResult> ValidateAsync(ValidationContext<CreateUserDto> context, CancellationToken cancellation = default)
         {
             SingRules();

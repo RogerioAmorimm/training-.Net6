@@ -1,9 +1,13 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.Results;
 using Microservices.Dtos.UserDto;
 using Microservices.Repositories.UserRepository;
+using Microservices.Services.LoginService;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 namespace Microservices.Services.Test.RegisterTest
 {
@@ -11,13 +15,17 @@ namespace Microservices.Services.Test.RegisterTest
     {
         private readonly Mock<IUserRepository> _mockRepository;
         private readonly Mock<IValidator<CreateUserDto>> _mockCreateValidator;
+        private readonly Mock<ILoginService> _mockLoginService;
+        private readonly Mock<IMapper> _mockMapper;
         private readonly RegisterService.RegisterService _service;
-
         public RegisterServiceTest()
         {
             _mockCreateValidator = new Mock<IValidator<CreateUserDto>>();
             _mockRepository = new Mock<IUserRepository>();
-            _service = new RegisterService.RegisterService(_mockRepository.Object, _mockCreateValidator.Object);
+            _mockLoginService = new Mock<ILoginService>();
+            _mockMapper = new Mock<IMapper>();
+            _service = new RegisterService.RegisterService(_mockRepository.Object,
+                _mockCreateValidator.Object, _mockMapper.Object, _mockLoginService.Object);
         }
         [Fact(DisplayName = "Create new user successfully")]
         public async void CreateUserAsyncWithSuccess()
@@ -28,12 +36,21 @@ namespace Microservices.Services.Test.RegisterTest
             _mockRepository.Setup(x => x.CreateUserAysnc(It.IsAny<CreateUserDto>()))
                             .ReturnsAsync(new CreateUserDto())
                             .Verifiable();
+            _mockMapper.Setup(x => x.Map<LoginUserDto>(It.IsAny<CreateUserDto>()))
+               .Returns(new LoginUserDto()).Verifiable();
+
+            _mockLoginService.Setup(x => x.LoginUserAsync(It.IsAny<LoginUserDto>()))
+                .ReturnsAsync(new OkObjectResult(new LoginResultDto())).Verifiable();
 
             var result = await _service.CreateUserAsync(It.IsNotNull<CreateUserDto>());
+            var obj = (result as OkObjectResult).Value as LoginResultDto;
             _mockCreateValidator.Verify();
             _mockRepository.Verify();
+            _mockMapper.Verify();
+            _mockLoginService.Verify();
+
             Assert.NotNull(result);
-            Assert.True(result.Erros.Count == 0);
+            Assert.True(obj.Erros.Count == 0);
 
         }
         [Fact(DisplayName = "Create new user unsuccessfully because of the DTO validation")]
@@ -55,11 +72,11 @@ namespace Microservices.Services.Test.RegisterTest
                                .Verifiable();
 
             var result = await _service.CreateUserAsync(new CreateUserDto());
+            var obj = (result as ObjectResult).Value as IEnumerable<object>;
             _mockCreateValidator.Verify();
-
+            
             Assert.NotNull(result);
-            Assert.True(result.Erros.Count == 3);
-            Assert.Contains(result.Erros, x => listOfErrors.Contains(x));
+            Assert.True(obj.Count() == 3);
 
         }
     }

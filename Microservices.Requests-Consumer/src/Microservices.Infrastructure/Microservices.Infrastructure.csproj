@@ -13,5 +13,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Microservices.Command\Microservices.Query.csproj" />
 	  <ProjectReference Include="..\Microservices.Queries\Microservices.Queries.csproj" />
+	  <ProjectReference Include="..\Microservices.Services\Microservices.Services.csproj" />
 	</ItemGroup>
 </Project>
