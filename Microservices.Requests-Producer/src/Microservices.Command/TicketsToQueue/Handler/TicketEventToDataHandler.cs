@@ -32,7 +32,7 @@ namespace Microservices.Command.Tickets.Handler
 
             var model = _mapper.Map<TicketModel>(notification);
 
-            await _repository.insertAsync(model);
+            await _repository.InsertAsync(model);
            
             var result = await _mediator.Send(new TicketsQuery() { UserId = notification.UserId });
           

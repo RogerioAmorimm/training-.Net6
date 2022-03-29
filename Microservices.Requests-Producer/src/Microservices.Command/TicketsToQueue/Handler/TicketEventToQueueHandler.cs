@@ -29,7 +29,7 @@ namespace Microservices.Command.Tickets.Handler
             {
                 if (cancellationToken.IsCancellationRequested) return;
 
-                var producer = _producer.GetProducer<string, string>();
+                using var producer = _producer.GetProducer<string, string>();
                 var message = _mapper.Map<TicketMessage>(notification);
                 var messageJson = JsonConvert.SerializeObject(message);
                 var messatomq = _mapper.Map<Message<string, string>>(messageJson);

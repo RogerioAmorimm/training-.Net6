@@ -7,7 +7,7 @@ namespace Microservices.Repositories.Ticket
 {
     public interface ITicketRepository
     {
-        Task insertAsync(TicketModel ticket);
-        Task<IEnumerable<TicketModel>> getAllById(Guid userId);
+        Task InsertAsync(TicketModel ticket);
+        Task<IEnumerable<TicketModel>> GetAllById(Guid userId);
     }
 }

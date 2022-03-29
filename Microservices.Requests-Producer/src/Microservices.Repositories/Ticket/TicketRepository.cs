@@ -18,12 +18,12 @@ namespace Microservices.Repositories.Ticket
             _context = context;
         }
 
-        public async Task insertAsync(TicketModel ticket)
+        public async Task InsertAsync(TicketModel ticket)
         {
             await _context.Tickets.InsertOneAsync(ticket);
         }
-        public async Task<IEnumerable<TicketModel>> getAllById(Guid userId)
-            => (await _context.Tickets.FindAsync(x => x.UserId == userId)).ToEnumerable();
+        public async Task<IEnumerable<TicketModel>> GetAllById(Guid userId)
+        => (await _context.Tickets.FindAsync(x => x.UserId == userId)).ToEnumerable();
 
     }
 }

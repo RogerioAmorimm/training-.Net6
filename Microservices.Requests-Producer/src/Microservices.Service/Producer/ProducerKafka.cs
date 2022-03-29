@@ -17,7 +17,7 @@ namespace Microservices.Service.Producer
 
         public IProducer<TKey, TValue> GetProducer<TKey, TValue>()
         {
-            using var producer = new ProducerBuilder<TKey, TValue>(new ProducerConfig()
+            var producer = new ProducerBuilder<TKey, TValue>(new ProducerConfig()
             {
                 BootstrapServers = _config.GetSection("Kafka:Host").Value,
             }).Build();

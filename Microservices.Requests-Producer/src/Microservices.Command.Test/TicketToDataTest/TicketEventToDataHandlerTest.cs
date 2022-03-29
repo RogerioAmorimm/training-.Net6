@@ -40,7 +40,7 @@ namespace Microservices.Command.Test.TicketToDataTest
         {
             _mockMapper.Setup(x => x.Map<TicketModel>(It.IsAny<CreateTicketEvent>()))
                 .Returns(It.IsAny<TicketModel>()).Verifiable();
-            _mockRepository.Setup(x => x.insertAsync(It.IsAny<TicketModel>()))
+            _mockRepository.Setup(x => x.InsertAsync(It.IsAny<TicketModel>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
             _mockMediator.Setup((x) => x.Send(It.IsAny<TicketsQuery>(), default(CancellationToken)))

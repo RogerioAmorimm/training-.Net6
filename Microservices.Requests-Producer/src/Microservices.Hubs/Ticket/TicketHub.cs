@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Microservices.RequestsProducer.Api.Hubs.Ticket
 {
     [Authorize(Roles = "producer, admin")]
-    public class TicketHub: BaseHub<ITicketHub>
+    public class TicketHub : BaseHub<ITicketHub>
     {
         private readonly IMediator _mediator;
         public TicketHub(IMediator mediator)
@@ -23,9 +23,9 @@ namespace Microservices.RequestsProducer.Api.Hubs.Ticket
             _mediator = mediator;
         }
 
-        public async Task<IEnumerable<TicketModel>> GetTicketsAsync() 
-       {
-            return  await _mediator.Send(new TicketsQuery() { UserId = new Guid(Context.User.GetId()) });
+        public async Task<IEnumerable<TicketModel>> GetTicketsAsync()
+        {
+            return await _mediator.Send(new TicketsQuery() { UserId = new Guid(Context.User.GetId()) });
         }
 
     }

@@ -19,6 +19,6 @@ namespace Microservices.Queries.TicketQuery.Handler
         }
 
         public async Task<IEnumerable<TicketModel>> Handle(TicketsQuery request, CancellationToken cancellationToken)
-            => await _repository.getAllById(request.UserId);
+            => await _repository.GetAllById(request.UserId);
     }
 }

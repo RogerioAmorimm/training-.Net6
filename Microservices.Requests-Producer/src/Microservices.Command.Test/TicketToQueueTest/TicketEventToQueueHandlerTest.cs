@@ -4,10 +4,12 @@ using AutoMapper;
 using Confluent.Kafka;
 using Microservices.Command.Tickets;
 using Microservices.Command.Tickets.Handler;
+using Microservices.Dto;
 using Microservices.Dto.Messages;
 using Microservices.Service.Producer;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,7 +21,7 @@ namespace Microservices.Command.Test.TicketToQueueTest
         private readonly Mock<IProducer<string, string>> _mockProducer;
         private readonly Mock<IMapper> _mockMapper;
         private readonly TicketEventToQueueHandler service;
-        private readonly CreateTicketEvent createTicketEvent = new CreateTicketEvent();
+        private readonly CreateTicketEvent createTicketEvent = new CreateTicketEvent() { TypeTopic = Topic.Ti };
 
         public TicketEventToQueueHandlerTest()
         {
@@ -42,14 +44,16 @@ namespace Microservices.Command.Test.TicketToQueueTest
             _mockMapper.Setup(x => x.Map<Message<string, string>>(It.IsAny<string>()))
                .Returns(new Message<string, string>()).Verifiable();
 
-            _mockProducer.Setup(x => x.ProduceAsync(It.IsAny<string>(), It.IsAny<Message<string, string>>(), default))
-                .Returns(It.IsAny<Task<DeliveryResult<string, string>>>())
+            _mockProducer.Setup(x => x.ProduceAsync(It.IsAny<string>(), It.IsAny<Message<string, string>>(), default(CancellationToken)))
+                .ReturnsAsync(It.IsAny<DeliveryResult<string, string>>())
                 .Verifiable();
 
 
             await service.Handle(createTicketEvent, default);
 
+            _mockProducerKafka.Verify();
             _mockMapper.Verify();
+            _mockProducer.Verify();
         }
     }
 }
