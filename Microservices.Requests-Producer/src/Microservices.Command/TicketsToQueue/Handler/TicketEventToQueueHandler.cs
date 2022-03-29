@@ -9,17 +9,18 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microservices.Service.Producer;
 
 namespace Microservices.Command.Tickets.Handler
 {
     public class TicketEventToQueueHandler : INotificationHandler<CreateTicketEvent>
     {
-        private readonly IConfiguration _config;
+        private readonly IProducerKafka _producer;
         private readonly IMapper _mapper;
-        public TicketEventToQueueHandler(IConfiguration config, IMapper mapper)
+        public TicketEventToQueueHandler(IMapper mapper, IProducerKafka producer)
         {
-            _config = config;
             _mapper = mapper;
+            _producer = producer;
         }
 
         public async Task Handle(CreateTicketEvent notification, CancellationToken cancellationToken)
@@ -28,23 +29,14 @@ namespace Microservices.Command.Tickets.Handler
             {
                 if (cancellationToken.IsCancellationRequested) return;
 
-                using var producer = new ProducerBuilder<string, string>(new ProducerConfig()
-                {
-                    BootstrapServers = _config.GetSection("Kafka:Host").Value,
-                }).Build();
-
-
+                var producer = _producer.GetProducer<string, string>();
                 var message = _mapper.Map<TicketMessage>(notification);
                 var messageJson = JsonConvert.SerializeObject(message);
-                await producer.ProduceAsync(notification.TypeTopic.ToString(),
-                                                   new Message<string, string>()
-                                                   {
-                                                       Key = Guid.NewGuid().ToString(),
-                                                       Value = messageJson
-                                                   }
-                );
+                var messatomq = _mapper.Map<Message<string, string>>(messageJson);
+                messatomq.Key = Guid.NewGuid().ToString();  
+                await producer.ProduceAsync(notification.TypeTopic.ToString(), messatomq);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

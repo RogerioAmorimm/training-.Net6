@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  app:
+    image: app-request:latest
+    ports:
+      - 3000:80

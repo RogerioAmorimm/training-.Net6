@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Microservices.Requests.Api.Controllers.ApiV1.ProducerTicket
 {
     [Route("[controller]")]
-    [Authorize(Roles = "producer, admin")]
+    //[Authorize(Roles = "producer, admin")]
     public class ProducerTicketController : ApiV1BaseController
     {
         private readonly IMediator _mediator;

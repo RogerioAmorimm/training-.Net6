@@ -2,6 +2,7 @@
 using Confluent.Kafka;
 using MediatR;
 using Microservices.Dto;
+using Microservices.Services.Consumer;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -13,32 +14,24 @@ namespace Microservices.Queries.Tickets.Handler
 {
     public class TicketQueryHandler : IRequestHandler<TicketQuery, TicketDto>
     {
-        private readonly IConfiguration _config;
-
-        public TicketQueryHandler(IConfiguration config)
+        private readonly IConsumerBuilder<string, string> _consumer;
+        public TicketQueryHandler(IConsumerBuilder<string, string> consumer)
         {
-            _config = config;
+            _consumer = consumer;
         }
 
         public Task<TicketDto> Handle(TicketQuery request, CancellationToken cancellationToken)
         {
             try
             {
-             
-                var config = new ConsumerConfig
-                {
-                    BootstrapServers = _config.GetSection("Kafka:Host").Value,
-                    GroupId = $"{request.TypeTopic}-group-0",
-                };
-
-                using var consumer = new ConsumerBuilder<string, string>(config).Build();
+                using var consumer = _consumer.GetConsumerByTopic(request.TypeTopic);
                 consumer.Subscribe(request.TypeTopic.ToString());
                 var message = consumer.Consume(cancellationToken).Message;
                 var dto = JsonConvert.DeserializeObject<TicketDto>(message.Value);
                 dto.TypeTopic = request.TypeTopic.ToString();
                 return Task.FromResult(dto);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

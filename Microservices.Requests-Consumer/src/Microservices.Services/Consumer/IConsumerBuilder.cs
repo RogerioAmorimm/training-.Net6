@@ -7,6 +7,6 @@ namespace Microservices.Services.Consumer
 {
     public interface IConsumerBuilder<TKey, TValue>
     {
-        IConsumer<TKey, TValue> getConsumerByTopic(Topic typeTopic);
+        IConsumer<TKey, TValue> GetConsumerByTopic(Topic typeTopic);
     }
 }

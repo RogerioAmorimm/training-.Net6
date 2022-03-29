@@ -13,6 +13,7 @@ namespace Microservices.Requests.Api
             CommandsIoC.RegisterCommands(services);
             RepositoriesIoC.RegisterRepositories(services);
             QueriesIoC.RegisterQueries(services);
+            ServicesIoC.RegisterServices(services);
             RegisterServices(services);
             
         }

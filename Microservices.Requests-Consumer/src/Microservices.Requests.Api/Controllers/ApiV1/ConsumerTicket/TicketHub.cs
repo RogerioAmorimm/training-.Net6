@@ -23,7 +23,7 @@ namespace Microservices.Requests.Api.Controllers.ApiV1.ConsumerTicket
         
         public async IAsyncEnumerable<TicketDto> ListenTickets(Topic typeTopic, CancellationToken cancellationToken)
         {
-            using var consumer = _consumer.getConsumerByTopic(typeTopic);
+            using var consumer = _consumer.GetConsumerByTopic(typeTopic);
             consumer.Subscribe(typeTopic.ToString());
             while (!cancellationToken.IsCancellationRequested) 
             {

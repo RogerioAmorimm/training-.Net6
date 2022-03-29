@@ -15,8 +15,9 @@ namespace Microservices.Services.Consumer
             _config = config;
         }
 
-        public IConsumer<TKey, TValue> getConsumerByTopic(Topic typeTopic)
+        public IConsumer<TKey, TValue> GetConsumerByTopic(Topic typeTopic)
         {
+         
             var config = new ConsumerConfig
             {
                 BootstrapServers = _config.GetSection("Kafka:Host").Value,

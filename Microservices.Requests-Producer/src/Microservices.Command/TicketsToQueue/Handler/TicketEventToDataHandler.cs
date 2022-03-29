@@ -18,15 +18,13 @@ namespace Microservices.Command.Tickets.Handler
         private readonly IMapper _mapper;
         private readonly ITicketRepository _repository;
         private readonly IMediator _mediator;
-        private readonly IHubContext<TicketHub, ITicketHub> _hubContext;
 
         public TicketEventToDataHandler(IMapper mapper, ITicketRepository repository,
-            IMediator mediator, IHubContext<TicketHub, ITicketHub> hubContext)
+            IMediator mediator)
         {
             _mapper = mapper;
             _repository = repository;
             _mediator = mediator;
-            _hubContext = hubContext;
         }
 
         public async Task Handle(CreateTicketEvent notification, CancellationToken cancellationToken)
@@ -37,8 +35,6 @@ namespace Microservices.Command.Tickets.Handler
             await _repository.insertAsync(model);
            
             var result = await _mediator.Send(new TicketsQuery() { UserId = notification.UserId });
-
-            _ = _hubContext.Clients.Groups(notification.UserId.ToString()).ReceivedMessage(result);
           
         }
     }

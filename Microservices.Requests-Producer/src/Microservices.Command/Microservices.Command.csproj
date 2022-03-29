@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Microservices.Hubs\Microservices.Hubs.csproj" />
     <ProjectReference Include="..\Microservices.Queries\Microservices.Queries.csproj" />
     <ProjectReference Include="..\Microservices.Repositories\Microservices.Repositories.csproj" />
+    <ProjectReference Include="..\Microservices.Service\Microservices.Service.csproj" />
   </ItemGroup>
 
 </Project>
